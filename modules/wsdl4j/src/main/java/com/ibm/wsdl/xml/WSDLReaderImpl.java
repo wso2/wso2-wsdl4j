@@ -4,25 +4,35 @@
 
 package com.ibm.wsdl.xml;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import javax.xml.namespace.*;
-import javax.xml.parsers.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import com.ibm.wsdl.BindingPolicyReferenceImpl;
+import com.ibm.wsdl.Constants;
+import com.ibm.wsdl.extensions.schema.SchemaConstants;
+import com.ibm.wsdl.util.StringUtils;
+import com.ibm.wsdl.util.xml.DOMUtils;
+import com.ibm.wsdl.util.xml.QNameUtils;
+import com.ibm.wsdl.util.xml.XPathUtils;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.xml.sax.InputSource;
+
 import javax.wsdl.*;
-import javax.wsdl.extensions.*;
-import javax.wsdl.factory.*;
-import javax.wsdl.xml.*;
-
-import com.ibm.wsdl.*;
-import com.ibm.wsdl.util.*;
-import com.ibm.wsdl.util.xml.*;
-
+import javax.wsdl.extensions.AttributeExtensible;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.ExtensionDeserializer;
+import javax.wsdl.extensions.ExtensionRegistry;
 import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.extensions.schema.SchemaReference;
-import com.ibm.wsdl.extensions.schema.SchemaConstants;
+import javax.wsdl.factory.WSDLFactory;
+import javax.wsdl.xml.WSDLLocator;
+import javax.wsdl.xml.WSDLReader;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
 
 
 /**
@@ -987,6 +997,10 @@ public class WSDLReaderImpl implements WSDLReader
       {
         binding.addExtensibilityElement(parseExtensibilityElement(
           Binding.class, tempEl, def));
+          if (QNameUtils.matches(Constants.Q_ELEM_POLICYREFERENCE, tempEl)) {
+              binding.addBindingPolicyReference(parseBindingPolicyReference(tempEl,
+                      def));
+          }
       }
 
       tempEl = DOMUtils.getNextSiblingElement(tempEl);
@@ -996,6 +1010,25 @@ public class WSDLReaderImpl implements WSDLReader
     
     return binding;
   }
+
+    protected BindingPolicyReference parseBindingPolicyReference(Element bindingInputEl,
+                                                                 Definition def)
+            throws WSDLException
+    {
+        BindingPolicyReference bindingPolicyReference = new BindingPolicyReferenceImpl();
+
+        List remainingAttrs = DOMUtils.getAttributes(bindingInputEl);
+        String uri = DOMUtils.getAttribute(bindingInputEl,
+                Constants.ATTR_URI,
+                remainingAttrs);
+
+        if (uri != null)
+        {
+            bindingPolicyReference.setURI(uri);
+        }
+
+        return bindingPolicyReference;
+    }
 
   protected BindingOperation parseBindingOperation(
     Element bindingOperationEl,

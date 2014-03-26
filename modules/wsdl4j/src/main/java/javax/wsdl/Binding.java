@@ -115,7 +115,7 @@ public interface Binding extends WSDLElement
    * 
    * @throws IllegalArgumentException if duplicate operations are found.
    * 
-   * @see #getBindingOperation(String, String, String) 
+   * @see #getBindingOperation(String, String, String)
    */
   public BindingOperation removeBindingOperation(String name,
                                                  String inputName,
@@ -124,4 +124,10 @@ public interface Binding extends WSDLElement
   public void setUndefined(boolean isUndefined);
 
   public boolean isUndefined();
+
+  public void addBindingPolicyReference (BindingPolicyReference bindingPolicyReference);
+
+    public BindingPolicyReference getBindingPolicyReference();
+
+
 }

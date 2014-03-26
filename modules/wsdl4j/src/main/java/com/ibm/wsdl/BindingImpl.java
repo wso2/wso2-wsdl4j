@@ -4,10 +4,12 @@
 
 package com.ibm.wsdl;
 
-import java.util.*;
-
 import javax.wsdl.*;
-import javax.xml.namespace.*;
+import javax.xml.namespace.QName;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * This class represents a port type binding and describes the
@@ -19,16 +21,18 @@ import javax.xml.namespace.*;
  */
 public class BindingImpl extends AbstractWSDLElement implements Binding
 {
-  protected QName name = null;
-  protected PortType portType = null;
-  protected List bindingOperations = new Vector();
-  protected List nativeAttributeNames =
-    Arrays.asList(Constants.BINDING_ATTR_NAMES);
-  protected boolean isUndefined = true;
+    protected QName name = null;
+    protected PortType portType = null;
+    protected List bindingOperations = new Vector();
+    protected List nativeAttributeNames =
+            Arrays.asList(Constants.BINDING_ATTR_NAMES);
+    protected boolean isUndefined = true;
+    protected BindingPolicyReference bindingPolicyReference = null;
 
-  public static final long serialVersionUID = 1;
 
-  /**
+    public static final long serialVersionUID = 1;
+
+    /**
    * Set the name of this binding.
    *
    * @param name the desired name
@@ -292,7 +296,7 @@ public class BindingImpl extends AbstractWSDLElement implements Binding
    * 
    * @throws IllegalArgumentException if duplicate operations are found.
    * 
-   * @see #getBindingOperation(String, String, String) 
+   * @see #getBindingOperation(String, String, String)
    */
   public BindingOperation removeBindingOperation(String name,
                                                  String inputName,
@@ -360,4 +364,12 @@ public class BindingImpl extends AbstractWSDLElement implements Binding
   {
     return nativeAttributeNames;
   }
+
+    public BindingPolicyReference getBindingPolicyReference() {
+        return bindingPolicyReference;
+    }
+
+    public void addBindingPolicyReference(BindingPolicyReference bindingPolicyReference) {
+        this.bindingPolicyReference = bindingPolicyReference;
+    }
 }

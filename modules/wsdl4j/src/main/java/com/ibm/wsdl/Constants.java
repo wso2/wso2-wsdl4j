@@ -4,7 +4,7 @@
 
 package com.ibm.wsdl;
 
-import javax.xml.namespace.*;
+import javax.xml.namespace.QName;
 
 /**
  * @author Matthew J. Duftler (duftler@us.ibm.com)
@@ -16,8 +16,11 @@ public class Constants
     "http://schemas.xmlsoap.org/wsdl/";
   public static final String NS_URI_XMLNS =
     "http://www.w3.org/2000/xmlns/";
+    public static final String NS_URI_POLICY =
+            "http://schemas.xmlsoap.org/ws/2004/09/policy";
 
-  // Top-level element names.
+
+    // Top-level element names.
   public static final String ELEM_DEFINITIONS = "definitions";
   public static final String ELEM_IMPORT = "import";
   public static final String ELEM_TYPES = "types";
@@ -29,6 +32,7 @@ public class Constants
   // Non top-level element names.
   public static final String ELEM_PART = "part";
   public static final String ELEM_OPERATION = "operation";
+    public static final String ELEM_POLICYREFERENCE = "PolicyReference";
   public static final String ELEM_INPUT = "input";
   public static final String ELEM_OUTPUT = "output";
   public static final String ELEM_FAULT = "fault";
@@ -56,6 +60,8 @@ public class Constants
     new QName(NS_URI_WSDL, ELEM_PART);
   public static final QName Q_ELEM_OPERATION =
     new QName(NS_URI_WSDL, ELEM_OPERATION);
+  public static final QName Q_ELEM_POLICYREFERENCE =
+    new QName(NS_URI_POLICY, ELEM_POLICYREFERENCE);
   public static final QName Q_ELEM_INPUT =
     new QName(NS_URI_WSDL, ELEM_INPUT);
   public static final QName Q_ELEM_OUTPUT =
@@ -79,8 +85,10 @@ public class Constants
   public static final String ATTR_NAMESPACE = "namespace";
   public static final String ATTR_LOCATION = "location";
   public static final String ATTR_REQUIRED = "required";
+    public static final String ATTR_URI = "URI";
 
-  // Lists of native attribute names.
+
+    // Lists of native attribute names.
   public static final String[] DEFINITION_ATTR_NAMES =
     new String[]{ATTR_NAME, ATTR_TARGET_NAMESPACE};
   public static final String[] PART_ATTR_NAMES =
