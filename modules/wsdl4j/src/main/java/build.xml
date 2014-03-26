@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+
+<!-- ===================================================================
+ 
+   Build file for WSDL4J
+
+Notes:
+   This is a build file for use with the Apache Ant build tool.
+
+Prerequisites:
+
+   Apache Ant from http://ant.apache.org
+   A JAXP-compliant DOM parser.
+     - e.g. Apache Xerces, from http://xerces.apache.org/xerces2-j/
+
+Optional additions:
+
+
+Build Instructions:
+   To build, run
+
+     java org.apache.tools.ant.Main <target>
+
+   in the directory where this file is located with the target you want.
+
+Main targets:
+
+ - compile  -> creates the "wsdl4j.jar" package in "./build/lib"
+ - javadocs -> creates the javadocs in "./build/javadocs"
+ - dist     -> creates the complete binary distribution
+ - srcdist  -> creates the complete src distribution
+ - clean    -> removes all the generated files and directories
+
+Author:
+  Matthew J. Duftler <duftler@us.ibm.com>
+
+==================================================================== -->
+
+<project default="compile" basedir=".">
+
+  <target name="init">
+    <property name="name" value="wsdl4j"/>
+    <property name="Name" value="WSDL4J"/>
+    <property name="wsdl4j.version" value="1.6.3"/>
+    <property name="wsdl4j.version.underscore" value="1_6_3"/>
+    <property name="jwsdl.version" value="1.2"/>
+    <property name="jwsdl.version.underscore" value="1_2"/>
+    <property name="qname.version" value="1.0"/>
+    <property name="year" value="2003, 2013"/>
+
+    <property name="build.compiler" value="classic"/>
+    <property name="debug" value="on"/>
+    <property name="debuglevel" value="lines,source,vars"/>
+
+    <property name="src.dir" value="./src"/>
+    <property name="docs.dir" value="./doc"/>
+
+    <property name="packages"
+              value="javax.*,
+                     com.ibm.wsdl.*"/>
+
+    <property name="build.file" value="build.xml"/>
+
+    <property name="build.dir" value="./build"/>
+    <property name="build.dest" value="./build/classes"/>
+    <property name="build.lib" value="./build/lib"/>
+    <property name="build.javadocs" value="./build/javadocs"/>
+
+    <property name="dist.dir.root" value="./dist"/>
+    <property name="dist.dir.name"
+              value="${name}-${wsdl4j.version.underscore}"/>
+    <property name="dist.dir"
+              value="${dist.dir.root}/${dist.dir.name}"/>
+    <property name="dist.bin.file"
+              value="${dist.dir.root}/${name}-bin-${wsdl4j.version}"/>
+    <property name="dist.src.file"
+              value="${dist.dir.root}/${name}-src-${wsdl4j.version}"/>
+
+    <property name="change.log.start.date" value="21 March 2003"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepares the build directory                                        -->
+  <!-- =================================================================== -->
+  <target name="prepare" depends="init">
+    <mkdir dir="${build.dir}"/>
+
+    <available property="junit.present" classname="junit.framework.TestCase"/>
+
+    <uptodate property="javadoc.required"
+              targetfile="${build.lib}/${name}.jar">
+      <srcfiles dir="${build.dir}" includes="**/*.html"/>
+    </uptodate>
+
+    <antcall target="checkDependencies"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Warn the user about missing resources                               -->
+  <!-- =================================================================== -->
+  <target name="checkJUnit" unless="junit.present">
+    <echo message="Warning: JUnit dependencies were not resolved."/>
+  </target>
+  <target name="checkDependencies">
+    <antcall target="checkJUnit"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Source files to be compiled                                         -->
+  <!-- =================================================================== -->
+  <patternset id="javac.source.files">
+    <include name="javax/wsdl/**/*.java"/>
+    <include name="javax/xml/**/*.java"/>
+    <include name="com/ibm/wsdl/**/*.java"/>
+  </patternset>
+
+  <!-- =================================================================== -->
+  <!-- Compiles the source directory                                       -->
+  <!-- =================================================================== -->
+  <target name="compile" depends="prepare">
+    <mkdir dir="${build.dest}"/>
+    <javac srcdir="${src.dir}" destdir="${build.dest}" debug="${debug}">
+      <patternset refid="javac.source.files"/>
+    </javac>
+
+    <mkdir dir="${build.lib}"/>
+    <jar jarfile="${build.lib}/${name}.jar" basedir="${build.dest}">
+      <exclude name="javax/xml/**"/>
+
+      <manifest>
+        <attribute name="Specification-Title" value="JWSDL"/>
+        <attribute name="Specification-Version" value="${jwsdl.version}"/>
+        <attribute name="Specification-Vendor"
+                   value="IBM (Java Community Process)"/>
+        <attribute name="Implementation-Title" value="WSDL4J"/>
+        <attribute name="Implementation-Version" value="${wsdl4j.version}"/>
+        <attribute name="Implementation-Vendor" value="IBM"/>
+      </manifest>
+    </jar>
+
+    <jar jarfile="${build.lib}/qname.jar" basedir="${build.dest}">
+      <include name="javax/xml/**/*.class"/>
+
+      <manifest>
+        <attribute name="Specification-Title" value="QName"/>
+        <attribute name="Specification-Version" value="${qname.version}"/>
+        <attribute name="Implementation-Title" value="WSDL4J"/>
+        <attribute name="Implementation-Version" value="${wsdl4j.version}"/>
+        <attribute name="Implementation-Vendor" value="IBM"/>
+      </manifest>
+    </jar>
+
+    <uptodate property="javadoc.required"
+              targetfile="${build.lib}/${name}.jar">
+      <srcfiles dir="${build.dir}" includes="**/*.html"/>
+    </uptodate>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the JWSDL API documentation                                 -->
+  <!-- =================================================================== -->
+  <target name="jwsdl_docs" depends="prepare">
+    <mkdir dir="${build.dir}/jwsdl-api-${jwsdl.version.underscore}"/>
+    <javadoc packagenames="javax.*"
+             sourcepath="${src.dir}"
+             destdir="${build.dir}/jwsdl-api-${jwsdl.version.underscore}"
+             author="true"
+             version="true"
+             use="true"
+             windowtitle="JWSDL API"
+             doctitle="JWSDL"
+             breakiterator="yes"
+    />
+
+    <mkdir dir="${dist.dir.root}/"/>
+    <zip zipfile="${dist.dir.root}/jwsdl-api-${jwsdl.version}.zip"
+         basedir="${build.dir}/">
+      <include name="jwsdl-api-${jwsdl.version.underscore}/**"/>
+    </zip>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the API documentation                                       -->
+  <!-- =================================================================== -->
+  <target name="javadocs" depends="prepare">
+    <mkdir dir="${build.javadocs}"/>
+    <javadoc packagenames="${packages}"
+             sourcepath="${src.dir}"
+             destdir="${build.javadocs}"
+             author="true"
+             version="true"
+             use="true"
+             windowtitle="${Name} API"
+             doctitle="${Name}"
+             breakiterator="yes"
+             bottom="Copyright &#169; ${year} IBM. All Rights Reserved."
+    />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the API documentation if necessary                          -->
+  <!-- =================================================================== -->
+  <target name="javadocsIfRequired" if="javadoc.required" depends="prepare">
+    <antcall target="javadocs"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the binary distribution                                     -->
+  <!-- =================================================================== -->
+  <target name="dist" depends="compile, javadocsIfRequired">
+    <delete dir="${dist.dir}"/>
+
+    <copy todir="${dist.dir}/docs/api">
+      <fileset dir="${build.javadocs}"/>
+    </copy>
+    <copy todir="${dist.dir}/lib">
+      <fileset dir="${build.lib}"/>
+    </copy>
+
+    <copy todir="${dist.dir}/docs">
+      <fileset dir="${docs.dir}">
+        <include name="*.html"/>
+      </fileset>
+      <filterset>
+        <filter token="version" value="${wsdl4j.version.underscore}"/>
+      </filterset>
+    </copy>
+
+    <copy tofile="${dist.dir}/docs/spec/jsr110-1.2.pdf">
+      <fileset dir="${docs.dir}">
+        <include name="spec/maint_rel_1.2/jsr110-1.2.pdf"/>
+      </fileset>
+    </copy>
+
+    <copy file="license.html" tofile="${dist.dir}/license.html"/>
+    <copy file="readme.txt" tofile="${dist.dir}/readme.txt"/>
+
+    <!-- ================================================================= -->
+    <!-- Produces the zip file                                             -->
+    <!-- ================================================================= -->
+    <zip zipfile="${dist.bin.file}.zip" basedir="${dist.dir.root}/">
+      <include name="${dist.dir.name}/**"/>
+    </zip>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the source distribution                                     -->
+  <!-- =================================================================== -->
+  <target name="srcdist" depends="init">
+    <delete dir="${dist.dir}"/>
+
+    <copy todir="${dist.dir}/src">
+      <fileset dir="${src.dir}">
+        <patternset refid="javac.source.files"/>
+      </fileset>
+    </copy>
+
+    <copy file="license.html" tofile="${dist.dir}/license.html"/>
+    <copy file="${build.file}" tofile="${dist.dir}/${build.file}"/>
+
+    <!-- ================================================================= -->
+    <!-- Produces the zip file                                             -->
+    <!-- ================================================================= -->
+    <zip zipfile="${dist.src.file}.zip" basedir="${dist.dir.root}/">
+      <include name="${dist.dir.name}/**"/>
+    </zip>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Cleans everything                                                   -->
+  <!-- =================================================================== -->
+  <target name="clean" depends="init">
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir.root}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Run's WSDL4J through the JWSDL TCK                                  -->
+  <!-- =================================================================== -->
+  <target name="test" depends="compile" if="junit.present">
+    <junit printsummary="on">
+      <sysproperty key="jwsdltck_home" value="./test"/>
+      <sysproperty key="javax.wsdl.factory.WSDLFactoryCandidate"
+                   value="com.ibm.wsdl.factory.WSDLFactoryImpl"/>
+
+      <classpath>
+        <pathelement location="${build.lib}/${name}.jar"/>
+        <pathelement location="${build.lib}/qname.jar"/>
+        <pathelement location="test/lib/jwsdltck.jar"/>
+      </classpath>
+
+      <formatter type="plain"/>
+
+      <test name="com.ibm.wsdl.tck.JWSDLTestSuite"
+            todir="./test"/>
+    </junit>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Creates the Change Log                                              -->
+  <!-- =================================================================== -->
+  <target name="changelog" depends="init">
+    <mkdir dir="${build.dir}"/>
+
+    <cvschangelog destfile="${build.dir}/changelog.xml"
+                  start="${change.log.start.date}">
+      <user displayname="Jeremy Hughes"
+            userid="hughesjp"/>
+    </cvschangelog>
+
+    <style in="${build.dir}/changelog.xml"
+           out="${build.dir}/changelog.html"
+           style="${docs.dir}/cvschangelog.xsl">
+      <param name="title" expression="WSDL4J ChangeLog"/>
+      <param name="module" expression="wsdl4j"/>
+      <param name="cvsweb"
+             expression="http://wsdl4j.cvs.sourceforge.net/wsdl4j/"/>
+      <param name="date" expression="${TODAY}"/>
+    </style>
+  </target>
+</project>
