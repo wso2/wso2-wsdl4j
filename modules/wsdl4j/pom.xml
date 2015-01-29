@@ -3,7 +3,7 @@
 
 
     <parent>
-        <groupId>org.wso2.carbon</groupId>
+        <groupId>org.wso2.wsdl4j</groupId>
         <artifactId>wsdl4j-parent</artifactId>
         <version>4.3.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
