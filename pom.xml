@@ -60,10 +60,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
-        <plugins>
+        </plugins>
     </build>
-   
-
 
     <properties>
         <wsdl4j.version>1.6.3-wso2v1-SNAPSHOT</wsdl4j.version>
