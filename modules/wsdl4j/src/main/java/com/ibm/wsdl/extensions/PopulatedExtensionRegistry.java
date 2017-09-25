@@ -29,6 +29,19 @@ public class PopulatedExtensionRegistry extends ExtensionRegistry
 
   public PopulatedExtensionRegistry()
   {
+    init();
+    handleSchemaContent();
+  }
+
+  public PopulatedExtensionRegistry(boolean ignoreSchemaContent)
+  {
+    init();
+    if(!ignoreSchemaContent) {
+      handleSchemaContent();
+    }
+  }
+
+  private void init(){
     SOAPAddressSerializer soapAddressSer = new SOAPAddressSerializer();
 
     registerSerializer(Port.class,
@@ -407,7 +420,9 @@ public class PopulatedExtensionRegistry extends ExtensionRegistry
     mapExtensionTypes(MIMEPart.class,
                       MIMEConstants.Q_ELEM_MIME_MIME_XML,
                       MIMEMimeXmlImpl.class);
-                      
+ }
+
+  private void handleSchemaContent(){                      
     //Register the schema parser
     
     mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
