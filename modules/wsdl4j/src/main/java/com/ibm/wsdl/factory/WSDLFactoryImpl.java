@@ -8,6 +8,7 @@ import javax.wsdl.*;
 import javax.wsdl.extensions.*;
 import javax.wsdl.factory.*;
 import javax.wsdl.xml.*;
+
 import com.ibm.wsdl.*;
 import com.ibm.wsdl.extensions.*;
 import com.ibm.wsdl.xml.*;
@@ -19,67 +20,70 @@ import com.ibm.wsdl.xml.*;
  *
  * @author Matthew J. Duftler (duftler@us.ibm.com)
  */
-public class WSDLFactoryImpl extends WSDLFactory
-{
-  /**
-   * Create a new instance of a Definition, with an instance
-   * of a PopulatedExtensionRegistry as its ExtensionRegistry.
-   *
-   * @see com.ibm.wsdl.extensions.PopulatedExtensionRegistry
-   */
-  public Definition newDefinition()
-  {
-    Definition def = new DefinitionImpl();
-    ExtensionRegistry extReg = newPopulatedExtensionRegistry();
-    def.setExtensionRegistry(extReg);
+public class WSDLFactoryImpl extends WSDLFactory {
+    /**
+     * Create a new instance of a Definition, with an instance
+     * of a PopulatedExtensionRegistry as its ExtensionRegistry.
+     *
+     * @see com.ibm.wsdl.extensions.PopulatedExtensionRegistry
+     */
+    public Definition newDefinition() {
+        Definition def = new DefinitionImpl();
+        ExtensionRegistry extReg = newPopulatedExtensionRegistry();
+        def.setExtensionRegistry(extReg);
+        return def;
+    }
 
-    return def;
-  }
+    /**
+     * Create a new instance of a Definition, with an instance
+     * of a PopulatedExtensionRegistry as its ExtensionRegistry.
+     *
+     * @param ignoreSchemaContent true to ignore the schema content and false otherwise.
+     * @see com.ibm.wsdl.extensions.PopulatedExtensionRegistry
+     */
+    public Definition newDefinition(boolean ignoreSchemaContent) {
+        Definition def = new DefinitionImpl();
+        ExtensionRegistry extReg = newPopulatedExtensionRegistry(ignoreSchemaContent);
+        def.setExtensionRegistry(extReg);
+        return def;
+    }
 
-  public Definition newDefinition(boolean ignoreSchemaContent)
-  {
-    Definition def = new DefinitionImpl();
-    ExtensionRegistry extReg = newPopulatedExtensionRegistry(ignoreSchemaContent);
-    def.setExtensionRegistry(extReg);
+    /**
+     * Create a new instance of a WSDLReader.
+     * @return WSDLReader a WSDLReader object
+     */
+    public WSDLReader newWSDLReader() {
+        return new WSDLReaderImpl();
+    }
 
-    return def;
-  }
+    /**
+     * Create a new instance of a WSDLWriter.
+     * @return WSDLWriter a WSDLWriter object
+     */
+    public WSDLWriter newWSDLWriter() {
+        return new WSDLWriterImpl();
+    }
 
-  /**
-   * Create a new instance of a WSDLReader.
-   */
-  public WSDLReader newWSDLReader()
-  {
-    return new WSDLReaderImpl();
-  }
+    /**
+     * Create a new instance of an ExtensionRegistry with pre-registered
+     * serializers/deserializers for the SOAP, HTTP and MIME
+     * extensions. Java extensionTypes are also mapped for all
+     * the SOAP, HTTP and MIME extensions.
+     * @return ExtensionRegistry an ExtensionRegistry object
+     */
+    public ExtensionRegistry newPopulatedExtensionRegistry() {
+        return new PopulatedExtensionRegistry();
+    }
 
-  /**
-   * Create a new instance of a WSDLWriter.
-   */
-  public WSDLWriter newWSDLWriter()
-  {
-    return new WSDLWriterImpl();
-  }
-
-  /**
-   * Create a new instance of an ExtensionRegistry with pre-registered
-   * serializers/deserializers for the SOAP, HTTP and MIME
-   * extensions. Java extensionTypes are also mapped for all
-   * the SOAP, HTTP and MIME extensions.
-   */
-  public ExtensionRegistry newPopulatedExtensionRegistry()
-  {
-    return new PopulatedExtensionRegistry();
-  }
-
-  /**
-   * Create a new instance of an ExtensionRegistry with pre-registered
-   * serializers/deserializers for the SOAP, HTTP and MIME
-   * extensions. Java extensionTypes are also mapped for all
-   * the SOAP, HTTP and MIME extensions.
-   */
-  public ExtensionRegistry newPopulatedExtensionRegistry(boolean ignoreSchemaContent)
-  {
-    return new PopulatedExtensionRegistry(ignoreSchemaContent);
-  }
+    /**
+     * Create a new instance of an ExtensionRegistry with pre-registered
+     * serializers/deserializers for the SOAP, HTTP and MIME
+     * extensions. Java extensionTypes are also mapped for all
+     * the SOAP, HTTP and MIME extensions.
+     * @param ignoreSchemaContent true to ignore the schema content and false otherwise
+     * @return ExtensionRegistry object
+     */
+    public ExtensionRegistry newPopulatedExtensionRegistry(boolean ignoreSchemaContent) {
+        return new PopulatedExtensionRegistry(ignoreSchemaContent);
+    }
 }

@@ -9,6 +9,7 @@ import javax.wsdl.extensions.*;
 import javax.wsdl.extensions.soap.*;
 import javax.wsdl.extensions.soap12.*;
 import javax.wsdl.extensions.mime.*;
+
 import com.ibm.wsdl.extensions.soap.*;
 import com.ibm.wsdl.extensions.soap12.*;
 import com.ibm.wsdl.extensions.http.*;
@@ -23,428 +24,425 @@ import com.ibm.wsdl.extensions.schema.*;
  *
  * @author Matthew J. Duftler (duftler@us.ibm.com)
  */
-public class PopulatedExtensionRegistry extends ExtensionRegistry
-{
-  public static final long serialVersionUID = 1;
+public class PopulatedExtensionRegistry extends ExtensionRegistry {
+    public static final long serialVersionUID = 1;
 
-  public PopulatedExtensionRegistry()
-  {
-    init();
-    handleSchemaContent();
-  }
-
-  public PopulatedExtensionRegistry(boolean ignoreSchemaContent)
-  {
-    init();
-    if(!ignoreSchemaContent) {
-      handleSchemaContent();
+    public PopulatedExtensionRegistry() {
+        init();
+        handleSchemaContent();
     }
-  }
 
-  private void init(){
-    SOAPAddressSerializer soapAddressSer = new SOAPAddressSerializer();
+    public PopulatedExtensionRegistry(boolean ignoreSchemaContent) {
+        init();
+        if (!ignoreSchemaContent) {
+            handleSchemaContent();
+        }
+    }
 
-    registerSerializer(Port.class,
-                       SOAPConstants.Q_ELEM_SOAP_ADDRESS,
-                       soapAddressSer);
-    registerDeserializer(Port.class,
-                         SOAPConstants.Q_ELEM_SOAP_ADDRESS,
-                         soapAddressSer);
-    mapExtensionTypes(Port.class,
-                      SOAPConstants.Q_ELEM_SOAP_ADDRESS,
-                      SOAPAddressImpl.class);
+    private void init() {
+        SOAPAddressSerializer soapAddressSer = new SOAPAddressSerializer();
 
-    SOAPBindingSerializer soapBindingSer = new SOAPBindingSerializer();
+        registerSerializer(Port.class,
+                SOAPConstants.Q_ELEM_SOAP_ADDRESS,
+                soapAddressSer);
+        registerDeserializer(Port.class,
+                SOAPConstants.Q_ELEM_SOAP_ADDRESS,
+                soapAddressSer);
+        mapExtensionTypes(Port.class,
+                SOAPConstants.Q_ELEM_SOAP_ADDRESS,
+                SOAPAddressImpl.class);
 
-    registerSerializer(Binding.class,
-                       SOAPConstants.Q_ELEM_SOAP_BINDING,
-                       soapBindingSer);
-    registerDeserializer(Binding.class,
-                         SOAPConstants.Q_ELEM_SOAP_BINDING,
-                         soapBindingSer);
-    mapExtensionTypes(Binding.class,
-                      SOAPConstants.Q_ELEM_SOAP_BINDING,
-                      SOAPBindingImpl.class);
+        SOAPBindingSerializer soapBindingSer = new SOAPBindingSerializer();
 
-    SOAPHeaderSerializer soapHeaderSer = new SOAPHeaderSerializer();
+        registerSerializer(Binding.class,
+                SOAPConstants.Q_ELEM_SOAP_BINDING,
+                soapBindingSer);
+        registerDeserializer(Binding.class,
+                SOAPConstants.Q_ELEM_SOAP_BINDING,
+                soapBindingSer);
+        mapExtensionTypes(Binding.class,
+                SOAPConstants.Q_ELEM_SOAP_BINDING,
+                SOAPBindingImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       SOAPConstants.Q_ELEM_SOAP_HEADER,
-                       soapHeaderSer);
-    registerDeserializer(BindingInput.class,
-                         SOAPConstants.Q_ELEM_SOAP_HEADER,
-                         soapHeaderSer);
-    mapExtensionTypes(BindingInput.class,
-                      SOAPConstants.Q_ELEM_SOAP_HEADER,
-                      SOAPHeaderImpl.class);
-    registerSerializer(BindingOutput.class,
-                       SOAPConstants.Q_ELEM_SOAP_HEADER,
-                       soapHeaderSer);
-    registerDeserializer(BindingOutput.class,
-                         SOAPConstants.Q_ELEM_SOAP_HEADER,
-                         soapHeaderSer);
-    mapExtensionTypes(BindingOutput.class,
-                      SOAPConstants.Q_ELEM_SOAP_HEADER,
-                      SOAPHeaderImpl.class);
-    mapExtensionTypes(SOAPHeader.class,
-                      SOAPConstants.Q_ELEM_SOAP_HEADER_FAULT,
-                      SOAPHeaderFaultImpl.class);
-    registerSerializer(MIMEPart.class,                     
-                       SOAPConstants.Q_ELEM_SOAP_HEADER,   
-                       soapHeaderSer);                     
-    registerDeserializer(MIMEPart.class,                   
-                         SOAPConstants.Q_ELEM_SOAP_HEADER, 
-                         soapHeaderSer);                   
-    mapExtensionTypes(MIMEPart.class,                      
-                      SOAPConstants.Q_ELEM_SOAP_HEADER,    
-                      SOAPHeaderImpl.class);               
+        SOAPHeaderSerializer soapHeaderSer = new SOAPHeaderSerializer();
 
-    SOAPBodySerializer soapBodySer = new SOAPBodySerializer();
+        registerSerializer(BindingInput.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                soapHeaderSer);
+        registerDeserializer(BindingInput.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                soapHeaderSer);
+        mapExtensionTypes(BindingInput.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                SOAPHeaderImpl.class);
+        registerSerializer(BindingOutput.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                soapHeaderSer);
+        registerDeserializer(BindingOutput.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                soapHeaderSer);
+        mapExtensionTypes(BindingOutput.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                SOAPHeaderImpl.class);
+        mapExtensionTypes(SOAPHeader.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER_FAULT,
+                SOAPHeaderFaultImpl.class);
+        registerSerializer(MIMEPart.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                soapHeaderSer);
+        registerDeserializer(MIMEPart.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                soapHeaderSer);
+        mapExtensionTypes(MIMEPart.class,
+                SOAPConstants.Q_ELEM_SOAP_HEADER,
+                SOAPHeaderImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       SOAPConstants.Q_ELEM_SOAP_BODY,
-                       soapBodySer);
-    registerDeserializer(BindingInput.class,
-                         SOAPConstants.Q_ELEM_SOAP_BODY,
-                         soapBodySer);
-    mapExtensionTypes(BindingInput.class,
-                      SOAPConstants.Q_ELEM_SOAP_BODY,
-                      SOAPBodyImpl.class);
-    registerSerializer(BindingOutput.class,
-                       SOAPConstants.Q_ELEM_SOAP_BODY,
-                       soapBodySer);
-    registerDeserializer(BindingOutput.class,
-                         SOAPConstants.Q_ELEM_SOAP_BODY,
-                         soapBodySer);
-    mapExtensionTypes(BindingOutput.class,
-                      SOAPConstants.Q_ELEM_SOAP_BODY,
-                      SOAPBodyImpl.class);
-    registerSerializer(MIMEPart.class,
-                       SOAPConstants.Q_ELEM_SOAP_BODY,
-                       soapBodySer);
-    registerDeserializer(MIMEPart.class,
-                         SOAPConstants.Q_ELEM_SOAP_BODY,
-                         soapBodySer);
-    mapExtensionTypes(MIMEPart.class,
-                      SOAPConstants.Q_ELEM_SOAP_BODY,
-                      SOAPBodyImpl.class);
+        SOAPBodySerializer soapBodySer = new SOAPBodySerializer();
 
-    SOAPFaultSerializer soapFaultSer = new SOAPFaultSerializer();
+        registerSerializer(BindingInput.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                soapBodySer);
+        registerDeserializer(BindingInput.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                soapBodySer);
+        mapExtensionTypes(BindingInput.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                SOAPBodyImpl.class);
+        registerSerializer(BindingOutput.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                soapBodySer);
+        registerDeserializer(BindingOutput.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                soapBodySer);
+        mapExtensionTypes(BindingOutput.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                SOAPBodyImpl.class);
+        registerSerializer(MIMEPart.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                soapBodySer);
+        registerDeserializer(MIMEPart.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                soapBodySer);
+        mapExtensionTypes(MIMEPart.class,
+                SOAPConstants.Q_ELEM_SOAP_BODY,
+                SOAPBodyImpl.class);
 
-    registerSerializer(BindingFault.class,
-                       SOAPConstants.Q_ELEM_SOAP_FAULT,
-                       soapFaultSer);
-    registerDeserializer(BindingFault.class,
-                         SOAPConstants.Q_ELEM_SOAP_FAULT,
-                         soapFaultSer);
-    mapExtensionTypes(BindingFault.class,
-                      SOAPConstants.Q_ELEM_SOAP_FAULT,
-                      SOAPFaultImpl.class);
+        SOAPFaultSerializer soapFaultSer = new SOAPFaultSerializer();
 
-    SOAPOperationSerializer soapOperationSer = new SOAPOperationSerializer();
+        registerSerializer(BindingFault.class,
+                SOAPConstants.Q_ELEM_SOAP_FAULT,
+                soapFaultSer);
+        registerDeserializer(BindingFault.class,
+                SOAPConstants.Q_ELEM_SOAP_FAULT,
+                soapFaultSer);
+        mapExtensionTypes(BindingFault.class,
+                SOAPConstants.Q_ELEM_SOAP_FAULT,
+                SOAPFaultImpl.class);
 
-    registerSerializer(BindingOperation.class,
-                       SOAPConstants.Q_ELEM_SOAP_OPERATION,
-                       soapOperationSer);
-    registerDeserializer(BindingOperation.class,
-                         SOAPConstants.Q_ELEM_SOAP_OPERATION,
-                         soapOperationSer);
-    mapExtensionTypes(BindingOperation.class,
-                      SOAPConstants.Q_ELEM_SOAP_OPERATION,
-                      SOAPOperationImpl.class);
-    
-    
-    SOAP12AddressSerializer soap12AddressSer = new SOAP12AddressSerializer();
+        SOAPOperationSerializer soapOperationSer = new SOAPOperationSerializer();
 
-    registerSerializer(Port.class,
-                       SOAP12Constants.Q_ELEM_SOAP_ADDRESS,
-                       soap12AddressSer);
-    registerDeserializer(Port.class,
-                         SOAP12Constants.Q_ELEM_SOAP_ADDRESS,
-                         soap12AddressSer);
-    mapExtensionTypes(Port.class,
-                      SOAP12Constants.Q_ELEM_SOAP_ADDRESS,
-                      SOAP12AddressImpl.class);
+        registerSerializer(BindingOperation.class,
+                SOAPConstants.Q_ELEM_SOAP_OPERATION,
+                soapOperationSer);
+        registerDeserializer(BindingOperation.class,
+                SOAPConstants.Q_ELEM_SOAP_OPERATION,
+                soapOperationSer);
+        mapExtensionTypes(BindingOperation.class,
+                SOAPConstants.Q_ELEM_SOAP_OPERATION,
+                SOAPOperationImpl.class);
 
-    SOAP12BindingSerializer soap12BindingSer = new SOAP12BindingSerializer();
 
-    registerSerializer(Binding.class,
-                       SOAP12Constants.Q_ELEM_SOAP_BINDING,
-                       soap12BindingSer);
-    registerDeserializer(Binding.class,
-                         SOAP12Constants.Q_ELEM_SOAP_BINDING,
-                         soap12BindingSer);
-    mapExtensionTypes(Binding.class,
-                      SOAP12Constants.Q_ELEM_SOAP_BINDING,
-                      SOAP12BindingImpl.class);
+        SOAP12AddressSerializer soap12AddressSer = new SOAP12AddressSerializer();
 
-    SOAP12HeaderSerializer soap12HeaderSer = new SOAP12HeaderSerializer();
+        registerSerializer(Port.class,
+                SOAP12Constants.Q_ELEM_SOAP_ADDRESS,
+                soap12AddressSer);
+        registerDeserializer(Port.class,
+                SOAP12Constants.Q_ELEM_SOAP_ADDRESS,
+                soap12AddressSer);
+        mapExtensionTypes(Port.class,
+                SOAP12Constants.Q_ELEM_SOAP_ADDRESS,
+                SOAP12AddressImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       SOAP12Constants.Q_ELEM_SOAP_HEADER,
-                       soap12HeaderSer);
-    registerDeserializer(BindingInput.class,
-                         SOAP12Constants.Q_ELEM_SOAP_HEADER,
-                         soap12HeaderSer);
-    mapExtensionTypes(BindingInput.class,
-                      SOAP12Constants.Q_ELEM_SOAP_HEADER,
-                      SOAP12HeaderImpl.class);
-    registerSerializer(BindingOutput.class,
-                       SOAP12Constants.Q_ELEM_SOAP_HEADER,
-                       soap12HeaderSer);
-    registerDeserializer(BindingOutput.class,
-                         SOAP12Constants.Q_ELEM_SOAP_HEADER,
-                         soap12HeaderSer);
-    mapExtensionTypes(BindingOutput.class,
-                      SOAP12Constants.Q_ELEM_SOAP_HEADER,
-                      SOAP12HeaderImpl.class);
-    mapExtensionTypes(SOAP12Header.class,
-                      SOAP12Constants.Q_ELEM_SOAP_HEADER_FAULT,
-                      SOAP12HeaderFaultImpl.class);
-    registerSerializer(MIMEPart.class,                       
-                       SOAP12Constants.Q_ELEM_SOAP_HEADER,   
-                       soap12HeaderSer);                     
-    registerDeserializer(MIMEPart.class,                     
-                         SOAP12Constants.Q_ELEM_SOAP_HEADER, 
-                         soap12HeaderSer);                   
-    mapExtensionTypes(MIMEPart.class,                        
-                      SOAP12Constants.Q_ELEM_SOAP_HEADER,    
-                      SOAP12HeaderImpl.class);               
+        SOAP12BindingSerializer soap12BindingSer = new SOAP12BindingSerializer();
 
-    SOAP12BodySerializer soap12BodySer = new SOAP12BodySerializer();
+        registerSerializer(Binding.class,
+                SOAP12Constants.Q_ELEM_SOAP_BINDING,
+                soap12BindingSer);
+        registerDeserializer(Binding.class,
+                SOAP12Constants.Q_ELEM_SOAP_BINDING,
+                soap12BindingSer);
+        mapExtensionTypes(Binding.class,
+                SOAP12Constants.Q_ELEM_SOAP_BINDING,
+                SOAP12BindingImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       SOAP12Constants.Q_ELEM_SOAP_BODY,
-                       soap12BodySer);
-    registerDeserializer(BindingInput.class,
-                         SOAP12Constants.Q_ELEM_SOAP_BODY,
-                         soap12BodySer);
-    mapExtensionTypes(BindingInput.class,
-                      SOAP12Constants.Q_ELEM_SOAP_BODY,
-                      SOAP12BodyImpl.class);
-    registerSerializer(BindingOutput.class,
-                       SOAP12Constants.Q_ELEM_SOAP_BODY,
-                       soap12BodySer);
-    registerDeserializer(BindingOutput.class,
-                         SOAP12Constants.Q_ELEM_SOAP_BODY,
-                         soap12BodySer);
-    mapExtensionTypes(BindingOutput.class,
-                      SOAP12Constants.Q_ELEM_SOAP_BODY,
-                      SOAP12BodyImpl.class);
-    registerSerializer(MIMEPart.class,
-                       SOAP12Constants.Q_ELEM_SOAP_BODY,
-                       soap12BodySer);
-    registerDeserializer(MIMEPart.class,
-                         SOAP12Constants.Q_ELEM_SOAP_BODY,
-                         soap12BodySer);
-    mapExtensionTypes(MIMEPart.class,
-                      SOAP12Constants.Q_ELEM_SOAP_BODY,
-                      SOAP12BodyImpl.class);
+        SOAP12HeaderSerializer soap12HeaderSer = new SOAP12HeaderSerializer();
 
-    SOAP12FaultSerializer soap12FaultSer = new SOAP12FaultSerializer();
+        registerSerializer(BindingInput.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                soap12HeaderSer);
+        registerDeserializer(BindingInput.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                soap12HeaderSer);
+        mapExtensionTypes(BindingInput.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                SOAP12HeaderImpl.class);
+        registerSerializer(BindingOutput.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                soap12HeaderSer);
+        registerDeserializer(BindingOutput.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                soap12HeaderSer);
+        mapExtensionTypes(BindingOutput.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                SOAP12HeaderImpl.class);
+        mapExtensionTypes(SOAP12Header.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER_FAULT,
+                SOAP12HeaderFaultImpl.class);
+        registerSerializer(MIMEPart.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                soap12HeaderSer);
+        registerDeserializer(MIMEPart.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                soap12HeaderSer);
+        mapExtensionTypes(MIMEPart.class,
+                SOAP12Constants.Q_ELEM_SOAP_HEADER,
+                SOAP12HeaderImpl.class);
 
-    registerSerializer(BindingFault.class,
-                       SOAP12Constants.Q_ELEM_SOAP_FAULT,
-                       soap12FaultSer);
-    registerDeserializer(BindingFault.class,
-                         SOAP12Constants.Q_ELEM_SOAP_FAULT,
-                         soap12FaultSer);
-    mapExtensionTypes(BindingFault.class,
-                      SOAP12Constants.Q_ELEM_SOAP_FAULT,
-                      SOAP12FaultImpl.class);
+        SOAP12BodySerializer soap12BodySer = new SOAP12BodySerializer();
 
-    SOAP12OperationSerializer soap12OperationSer = new SOAP12OperationSerializer();
+        registerSerializer(BindingInput.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                soap12BodySer);
+        registerDeserializer(BindingInput.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                soap12BodySer);
+        mapExtensionTypes(BindingInput.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                SOAP12BodyImpl.class);
+        registerSerializer(BindingOutput.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                soap12BodySer);
+        registerDeserializer(BindingOutput.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                soap12BodySer);
+        mapExtensionTypes(BindingOutput.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                SOAP12BodyImpl.class);
+        registerSerializer(MIMEPart.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                soap12BodySer);
+        registerDeserializer(MIMEPart.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                soap12BodySer);
+        mapExtensionTypes(MIMEPart.class,
+                SOAP12Constants.Q_ELEM_SOAP_BODY,
+                SOAP12BodyImpl.class);
 
-    registerSerializer(BindingOperation.class,
-                       SOAP12Constants.Q_ELEM_SOAP_OPERATION,
-                       soap12OperationSer);
-    registerDeserializer(BindingOperation.class,
-                         SOAP12Constants.Q_ELEM_SOAP_OPERATION,
-                         soap12OperationSer);
-    mapExtensionTypes(BindingOperation.class,
-                      SOAP12Constants.Q_ELEM_SOAP_OPERATION,
-                      SOAP12OperationImpl.class);
+        SOAP12FaultSerializer soap12FaultSer = new SOAP12FaultSerializer();
 
-    HTTPAddressSerializer httpAddressSer = new HTTPAddressSerializer();
+        registerSerializer(BindingFault.class,
+                SOAP12Constants.Q_ELEM_SOAP_FAULT,
+                soap12FaultSer);
+        registerDeserializer(BindingFault.class,
+                SOAP12Constants.Q_ELEM_SOAP_FAULT,
+                soap12FaultSer);
+        mapExtensionTypes(BindingFault.class,
+                SOAP12Constants.Q_ELEM_SOAP_FAULT,
+                SOAP12FaultImpl.class);
 
-    registerSerializer(Port.class,
-                       HTTPConstants.Q_ELEM_HTTP_ADDRESS,
-                       httpAddressSer);
-    registerDeserializer(Port.class,
-                         HTTPConstants.Q_ELEM_HTTP_ADDRESS,
-                         httpAddressSer);
-    mapExtensionTypes(Port.class,
-                      HTTPConstants.Q_ELEM_HTTP_ADDRESS,
-                      HTTPAddressImpl.class);
+        SOAP12OperationSerializer soap12OperationSer = new SOAP12OperationSerializer();
 
-    HTTPOperationSerializer httpOperationSer = new HTTPOperationSerializer();
+        registerSerializer(BindingOperation.class,
+                SOAP12Constants.Q_ELEM_SOAP_OPERATION,
+                soap12OperationSer);
+        registerDeserializer(BindingOperation.class,
+                SOAP12Constants.Q_ELEM_SOAP_OPERATION,
+                soap12OperationSer);
+        mapExtensionTypes(BindingOperation.class,
+                SOAP12Constants.Q_ELEM_SOAP_OPERATION,
+                SOAP12OperationImpl.class);
 
-    registerSerializer(BindingOperation.class,
-                       HTTPConstants.Q_ELEM_HTTP_OPERATION,
-                       httpOperationSer);
-    registerDeserializer(BindingOperation.class,
-                         HTTPConstants.Q_ELEM_HTTP_OPERATION,
-                         httpOperationSer);
-    mapExtensionTypes(BindingOperation.class,
-                      HTTPConstants.Q_ELEM_HTTP_OPERATION,
-                      HTTPOperationImpl.class);
+        HTTPAddressSerializer httpAddressSer = new HTTPAddressSerializer();
 
-    HTTPBindingSerializer httpBindingSer = new HTTPBindingSerializer();
+        registerSerializer(Port.class,
+                HTTPConstants.Q_ELEM_HTTP_ADDRESS,
+                httpAddressSer);
+        registerDeserializer(Port.class,
+                HTTPConstants.Q_ELEM_HTTP_ADDRESS,
+                httpAddressSer);
+        mapExtensionTypes(Port.class,
+                HTTPConstants.Q_ELEM_HTTP_ADDRESS,
+                HTTPAddressImpl.class);
 
-    registerSerializer(Binding.class,
-                       HTTPConstants.Q_ELEM_HTTP_BINDING,
-                       httpBindingSer);
-    registerDeserializer(Binding.class,
-                         HTTPConstants.Q_ELEM_HTTP_BINDING,
-                         httpBindingSer);
-    mapExtensionTypes(Binding.class,
-                      HTTPConstants.Q_ELEM_HTTP_BINDING,
-                      HTTPBindingImpl.class);
+        HTTPOperationSerializer httpOperationSer = new HTTPOperationSerializer();
 
-    HTTPUrlEncodedSerializer httpUrlEncodedSer =
-      new HTTPUrlEncodedSerializer();
+        registerSerializer(BindingOperation.class,
+                HTTPConstants.Q_ELEM_HTTP_OPERATION,
+                httpOperationSer);
+        registerDeserializer(BindingOperation.class,
+                HTTPConstants.Q_ELEM_HTTP_OPERATION,
+                httpOperationSer);
+        mapExtensionTypes(BindingOperation.class,
+                HTTPConstants.Q_ELEM_HTTP_OPERATION,
+                HTTPOperationImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       HTTPConstants.Q_ELEM_HTTP_URL_ENCODED,
-                       httpUrlEncodedSer);
-    registerDeserializer(BindingInput.class,
-                         HTTPConstants.Q_ELEM_HTTP_URL_ENCODED,
-                         httpUrlEncodedSer);
-    mapExtensionTypes(BindingInput.class,
-                      HTTPConstants.Q_ELEM_HTTP_URL_ENCODED,
-                      HTTPUrlEncodedImpl.class);
+        HTTPBindingSerializer httpBindingSer = new HTTPBindingSerializer();
 
-    HTTPUrlReplacementSerializer httpUrlReplacementSer =
-      new HTTPUrlReplacementSerializer();
+        registerSerializer(Binding.class,
+                HTTPConstants.Q_ELEM_HTTP_BINDING,
+                httpBindingSer);
+        registerDeserializer(Binding.class,
+                HTTPConstants.Q_ELEM_HTTP_BINDING,
+                httpBindingSer);
+        mapExtensionTypes(Binding.class,
+                HTTPConstants.Q_ELEM_HTTP_BINDING,
+                HTTPBindingImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       HTTPConstants.Q_ELEM_HTTP_URL_REPLACEMENT,
-                       httpUrlReplacementSer);
-    registerDeserializer(BindingInput.class,
-                         HTTPConstants.Q_ELEM_HTTP_URL_REPLACEMENT,
-                         httpUrlReplacementSer);
-    mapExtensionTypes(BindingInput.class,
-                      HTTPConstants.Q_ELEM_HTTP_URL_REPLACEMENT,
-                      HTTPUrlReplacementImpl.class);
+        HTTPUrlEncodedSerializer httpUrlEncodedSer =
+                new HTTPUrlEncodedSerializer();
 
-    MIMEContentSerializer mimeContentSer = new MIMEContentSerializer();
+        registerSerializer(BindingInput.class,
+                HTTPConstants.Q_ELEM_HTTP_URL_ENCODED,
+                httpUrlEncodedSer);
+        registerDeserializer(BindingInput.class,
+                HTTPConstants.Q_ELEM_HTTP_URL_ENCODED,
+                httpUrlEncodedSer);
+        mapExtensionTypes(BindingInput.class,
+                HTTPConstants.Q_ELEM_HTTP_URL_ENCODED,
+                HTTPUrlEncodedImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       MIMEConstants.Q_ELEM_MIME_CONTENT,
-                       mimeContentSer);
-    registerDeserializer(BindingInput.class,
-                         MIMEConstants.Q_ELEM_MIME_CONTENT,
-                         mimeContentSer);
-    mapExtensionTypes(BindingInput.class,
-                      MIMEConstants.Q_ELEM_MIME_CONTENT,
-                      MIMEContentImpl.class);
-    registerSerializer(BindingOutput.class,
-                       MIMEConstants.Q_ELEM_MIME_CONTENT,
-                       mimeContentSer);
-    registerDeserializer(BindingOutput.class,
-                         MIMEConstants.Q_ELEM_MIME_CONTENT,
-                         mimeContentSer);
-    mapExtensionTypes(BindingOutput.class,
-                      MIMEConstants.Q_ELEM_MIME_CONTENT,
-                      MIMEContentImpl.class);
-    registerSerializer(MIMEPart.class,
-                       MIMEConstants.Q_ELEM_MIME_CONTENT,
-                       mimeContentSer);
-    registerDeserializer(MIMEPart.class,
-                         MIMEConstants.Q_ELEM_MIME_CONTENT,
-                         mimeContentSer);
-    mapExtensionTypes(MIMEPart.class,
-                      MIMEConstants.Q_ELEM_MIME_CONTENT,
-                      MIMEContentImpl.class);
+        HTTPUrlReplacementSerializer httpUrlReplacementSer =
+                new HTTPUrlReplacementSerializer();
 
-    MIMEMultipartRelatedSerializer mimeMultipartRelatedSer =
-      new MIMEMultipartRelatedSerializer();
+        registerSerializer(BindingInput.class,
+                HTTPConstants.Q_ELEM_HTTP_URL_REPLACEMENT,
+                httpUrlReplacementSer);
+        registerDeserializer(BindingInput.class,
+                HTTPConstants.Q_ELEM_HTTP_URL_REPLACEMENT,
+                httpUrlReplacementSer);
+        mapExtensionTypes(BindingInput.class,
+                HTTPConstants.Q_ELEM_HTTP_URL_REPLACEMENT,
+                HTTPUrlReplacementImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                       mimeMultipartRelatedSer);
-    registerDeserializer(BindingInput.class,
-                         MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                         mimeMultipartRelatedSer);
-    mapExtensionTypes(BindingInput.class,
-                      MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                      MIMEMultipartRelatedImpl.class);
-    registerSerializer(BindingOutput.class,
-                       MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                       mimeMultipartRelatedSer);
-    registerDeserializer(BindingOutput.class,
-                         MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                         mimeMultipartRelatedSer);
-    mapExtensionTypes(BindingOutput.class,
-                      MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                      MIMEMultipartRelatedImpl.class);
-    registerSerializer(MIMEPart.class,
-                       MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                       mimeMultipartRelatedSer);
-    registerDeserializer(MIMEPart.class,
-                         MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                         mimeMultipartRelatedSer);
-    mapExtensionTypes(MIMEPart.class,
-                      MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
-                      MIMEMultipartRelatedImpl.class);
-    mapExtensionTypes(MIMEMultipartRelated.class,
-                      MIMEConstants.Q_ELEM_MIME_PART,
-                      MIMEPartImpl.class);
+        MIMEContentSerializer mimeContentSer = new MIMEContentSerializer();
 
-    MIMEMimeXmlSerializer mimeMimeXmlSer = new MIMEMimeXmlSerializer();
+        registerSerializer(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                mimeContentSer);
+        registerDeserializer(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                mimeContentSer);
+        mapExtensionTypes(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                MIMEContentImpl.class);
+        registerSerializer(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                mimeContentSer);
+        registerDeserializer(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                mimeContentSer);
+        mapExtensionTypes(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                MIMEContentImpl.class);
+        registerSerializer(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                mimeContentSer);
+        registerDeserializer(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                mimeContentSer);
+        mapExtensionTypes(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_CONTENT,
+                MIMEContentImpl.class);
 
-    registerSerializer(BindingInput.class,
-                       MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                       mimeMimeXmlSer);
-    registerDeserializer(BindingInput.class,
-                         MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                         mimeMimeXmlSer);
-    mapExtensionTypes(BindingInput.class,
-                      MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                      MIMEMimeXmlImpl.class);
-    registerSerializer(BindingOutput.class,
-                       MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                       mimeMimeXmlSer);
-    registerDeserializer(BindingOutput.class,
-                         MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                         mimeMimeXmlSer);
-    mapExtensionTypes(BindingOutput.class,
-                      MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                      MIMEMimeXmlImpl.class);
-    registerSerializer(MIMEPart.class,
-                       MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                       mimeMimeXmlSer);
-    registerDeserializer(MIMEPart.class,
-                         MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                         mimeMimeXmlSer);
-    mapExtensionTypes(MIMEPart.class,
-                      MIMEConstants.Q_ELEM_MIME_MIME_XML,
-                      MIMEMimeXmlImpl.class);
- }
+        MIMEMultipartRelatedSerializer mimeMultipartRelatedSer =
+                new MIMEMultipartRelatedSerializer();
 
-  private void handleSchemaContent(){                      
-    //Register the schema parser
-    
-    mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
-        SchemaImpl.class);
-    registerDeserializer(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
-        new SchemaDeserializer());
-    registerSerializer(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
-        new SchemaSerializer());
+        registerSerializer(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                mimeMultipartRelatedSer);
+        registerDeserializer(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                mimeMultipartRelatedSer);
+        mapExtensionTypes(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                MIMEMultipartRelatedImpl.class);
+        registerSerializer(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                mimeMultipartRelatedSer);
+        registerDeserializer(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                mimeMultipartRelatedSer);
+        mapExtensionTypes(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                MIMEMultipartRelatedImpl.class);
+        registerSerializer(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                mimeMultipartRelatedSer);
+        registerDeserializer(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                mimeMultipartRelatedSer);
+        mapExtensionTypes(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_MULTIPART_RELATED,
+                MIMEMultipartRelatedImpl.class);
+        mapExtensionTypes(MIMEMultipartRelated.class,
+                MIMEConstants.Q_ELEM_MIME_PART,
+                MIMEPartImpl.class);
 
-    mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_2000,
-        SchemaImpl.class);
-    registerDeserializer(Types.class, SchemaConstants.Q_ELEM_XSD_2000,
-        new SchemaDeserializer());
-    registerSerializer(Types.class, SchemaConstants.Q_ELEM_XSD_2000,
-        new SchemaSerializer());
+        MIMEMimeXmlSerializer mimeMimeXmlSer = new MIMEMimeXmlSerializer();
 
-    mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_2001,
-        SchemaImpl.class);
-    registerDeserializer(Types.class, SchemaConstants.Q_ELEM_XSD_2001,
-        new SchemaDeserializer());
-    registerSerializer(Types.class, SchemaConstants.Q_ELEM_XSD_2001,
-        new SchemaSerializer());
+        registerSerializer(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                mimeMimeXmlSer);
+        registerDeserializer(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                mimeMimeXmlSer);
+        mapExtensionTypes(BindingInput.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                MIMEMimeXmlImpl.class);
+        registerSerializer(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                mimeMimeXmlSer);
+        registerDeserializer(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                mimeMimeXmlSer);
+        mapExtensionTypes(BindingOutput.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                MIMEMimeXmlImpl.class);
+        registerSerializer(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                mimeMimeXmlSer);
+        registerDeserializer(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                mimeMimeXmlSer);
+        mapExtensionTypes(MIMEPart.class,
+                MIMEConstants.Q_ELEM_MIME_MIME_XML,
+                MIMEMimeXmlImpl.class);
+    }
 
-  }
+    private void handleSchemaContent() {
+        //Register the schema parser
+
+        mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
+                SchemaImpl.class);
+        registerDeserializer(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
+                new SchemaDeserializer());
+        registerSerializer(Types.class, SchemaConstants.Q_ELEM_XSD_1999,
+                new SchemaSerializer());
+
+        mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_2000,
+                SchemaImpl.class);
+        registerDeserializer(Types.class, SchemaConstants.Q_ELEM_XSD_2000,
+                new SchemaDeserializer());
+        registerSerializer(Types.class, SchemaConstants.Q_ELEM_XSD_2000,
+                new SchemaSerializer());
+
+        mapExtensionTypes(Types.class, SchemaConstants.Q_ELEM_XSD_2001,
+                SchemaImpl.class);
+        registerDeserializer(Types.class, SchemaConstants.Q_ELEM_XSD_2001,
+                new SchemaDeserializer());
+        registerSerializer(Types.class, SchemaConstants.Q_ELEM_XSD_2001,
+                new SchemaSerializer());
+
+    }
 }
