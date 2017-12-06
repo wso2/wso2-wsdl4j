@@ -63,6 +63,7 @@ public class WSDLReaderImpl implements WSDLReader
   protected String factoryImplName = null;
   protected WSDLLocator loc = null;
   protected WSDLFactory factory = null;
+  protected boolean ignoreSchemaContent = false;
   
   //Contains all schemas used by this wsdl, either in-line or nested 
   //via wsdl imports or schema imports, includes or redefines
@@ -250,6 +251,14 @@ public class WSDLReaderImpl implements WSDLReader
     return factoryImplName;
   }
 
+  public boolean isIgnoreSchemaContent() {
+    return ignoreSchemaContent;
+  }
+
+  public void setIgnoreSchemaContent(boolean ignoreSchemaContent) {
+    this.ignoreSchemaContent = ignoreSchemaContent;
+  }
+
   protected Definition parseDefinitions(String documentBaseURI,
                                         Element defEl,
                                         Map importedDefs)
@@ -258,7 +267,7 @@ public class WSDLReaderImpl implements WSDLReader
     checkElementName(defEl, Constants.Q_ELEM_DEFINITIONS);
 
     WSDLFactory factory = getWSDLFactory();
-    Definition def = factory.newDefinition();
+    Definition def = factory.newDefinition(this.ignoreSchemaContent);
 
     if (extReg != null)
     {

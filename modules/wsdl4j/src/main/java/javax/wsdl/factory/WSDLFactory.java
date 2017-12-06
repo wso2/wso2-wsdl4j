@@ -160,6 +160,11 @@ public abstract class WSDLFactory
   public abstract Definition newDefinition();
 
   /**
+   * Create a new instance of a Definition.
+   */
+  public abstract Definition newDefinition(boolean ignoreSchemaContent);
+
+  /**
    * Create a new instance of a WSDLReader.
    */
   public abstract WSDLReader newWSDLReader();
