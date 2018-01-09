@@ -8,7 +8,6 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>wsdl4j</groupId>
     <artifactId>wsdl4j</artifactId>
     <packaging>jar</packaging>
     <name>wsdl4j</name>
