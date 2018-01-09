@@ -23,12 +23,12 @@
     <parent>
         <groupId>org.wso2.wsdl4j</groupId>
         <artifactId>wsdl4j-parent</artifactId>
-        <version>1.6.3-wso2v1-SNAPSHOT</version>
+        <version>1.6.3.wso2v1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wsdl4j</artifactId>
+    <artifactId>wsdl4j.wso2</artifactId>
 
     <packaging>bundle</packaging>
     <name>wsdl4j.wso2</name>
