@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.wso2.wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
-            <version>${wsdl4j.version}</version>
+            <version>${project.version}</version>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
