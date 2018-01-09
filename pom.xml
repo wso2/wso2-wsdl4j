@@ -16,14 +16,12 @@
   specific language governing permissions and limitations
   under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.wsdl4j</groupId>
     <artifactId>wsdl4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.3-wso2v1-SNAPSHOT</version>
+    <version>1.6.3.wso2v1</version>
     <description>
          WSDL4J Parent.
     </description>
@@ -38,7 +36,7 @@
         <url>https://github.com/wso2/wso2-wsdl4j.git</url>
         <developerConnection>scm:git:https://github.com/wso2/wso2-wsdl4j.git</developerConnection>
         <connection>scm:git:https://github.com/wso2/wso2-wsdl4j.git</connection>
-        <tag>HEAD</tag>
+        <tag>v1.6.3.wso2v1</tag>
     </scm>
 
     <modules>
