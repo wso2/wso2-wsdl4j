@@ -28,7 +28,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wso2.wsdl4j.wso2</groupId>
     <artifactId>wsdl4j</artifactId>
     <version>1.6.3.wso2v1-SNAPSHOT</version>
 
