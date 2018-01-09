@@ -39,7 +39,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>wsdl4j</groupId>
+            <groupId>org.wso2.wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
             <version>${wsdl4j.version}</version>
             <optional>true</optional>
