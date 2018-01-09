@@ -23,7 +23,7 @@
     <groupId>org.wso2.wsdl4j</groupId>
     <artifactId>wsdl4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.3-wso2v1-SNAPSHOT</version>
+    <version>1.6.3.wso2v1-SNAPSHOT</version>
     <description>
          WSDL4J Parent.
     </description>
@@ -64,7 +64,7 @@
     </build>
 
     <properties>
-        <wsdl4j.version>1.6.3-wso2v1-SNAPSHOT</wsdl4j.version>
+        <wsdl4j.version>1.6.3.wso2v1-SNAPSHOT</wsdl4j.version>
     </properties>
 
 </project>
