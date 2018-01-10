@@ -70,12 +70,12 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
-                            javax.wsdl.*; version=${wsdl4j.version},
-                            com.ibm.wsdl.*; version=${wsdl4j.version}
+                            javax.wsdl.*; version=${project.version},
+                            com.ibm.wsdl.*; version=${project.version}
                         </Export-Package>
                         <Import-Package>
-                            !javax.wsdl.*; version=${wsdl4j.version},
-                            !com.ibm.wsdl.*; version=${wsdl4j.version},
+                            !javax.wsdl.*; version=${project.version},
+                            !com.ibm.wsdl.*; version=${project.version},
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>
