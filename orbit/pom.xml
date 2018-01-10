@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.wso2.wsdl4j</groupId>
         <artifactId>wsdl4j-parent</artifactId>
-        <version>1.6.3.wso2v3-SNAPSHOT</version>
+        <version>1.6.3.wso2v3</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
